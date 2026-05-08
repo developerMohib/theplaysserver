@@ -140,47 +140,16 @@ npm install --save-dev typescript ts-node @types/node @types/express @types/bcry
 npm run dev
 ```
 
-### Frontend Setup
-
-```bash
-# 1. Create Next.js app
-npx create-next-app@latest the-plays-frontend \
-  --typescript \
-  --tailwind \
-  --app \
-  --no-eslint
-
-cd the-plays-frontend
-
-# 2. Install additional dependencies
-npm install framer-motion react-hook-form zod @hookform/resolvers axios date-fns lucide-react
-
-# 3. Create .env.local
-cat > .env.local << 'EOF'
-NEXT_PUBLIC_API_URL=http://localhost:5000/api
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-EOF
-
-# 4. Copy frontend files from the provided code
-# (Copy all components, pages, styles, context, services)
-
-# 5. Start development server
-npm run dev
-```
-
-### Start Both Services
+### Start Services
 
 ```bash
 # Terminal 1 - Backend (http://localhost:5000)
 cd the-plays-backend
 npm run dev
 
-# Terminal 2 - Frontend (http://localhost:3000)
-cd the-plays-frontend
-npm run dev
 ```
 
-Visit `http://localhost:3000` in your browser!
+Visit `http://localhost:5000` in your browser!
 
 ---
 
@@ -213,33 +182,6 @@ the-plays/
 │   │   ├── app.ts
 │   │   └── server.ts
 │   └── package.json
-│
-└── the-plays-frontend/
-    ├── src/
-    │   ├── app/
-    │   │   ├── (public)/
-    │   │   │   ├── page.tsx
-    │   │   │   ├── about/
-    │   │   │   ├── pricing/
-    │   │   │   └── contact/
-    │   │   ├── dashboard/
-    │   │   │   ├── user/
-    │   │   │   └── admin/
-    │   │   └── auth/
-    │   │       ├── login/
-    │   │       └── register/
-    │   ├── components/
-    │   │   ├── home/
-    │   │   ├── booking/
-    │   │   ├── dashboard/
-    │   │   ├── shared/
-    │   │   └── ui/
-    │   ├── context/
-    │   │   └── AuthContext.tsx
-    │   ├── styles/
-    │   │   └── globals.css
-    │   └── hooks/
-    └── package.json
 ```
 
 ---
@@ -415,12 +357,6 @@ All pages and components tested on all screen sizes.
 
 ## 🚀 Deployment
 
-### Frontend (Vercel)
-```bash
-npm install -g vercel
-vercel deploy
-```
-
 ### Backend (Render/Railway/Heroku)
 ```bash
 # Push code to GitHub
@@ -541,9 +477,9 @@ Built with ❤️ by The Plays Development Team
 ## 📞 Support
 
 For issues, questions, or feedback:
-- Email: support@theplays.com
-- Phone: +880 1234 567890
-- Address: Dhaka, Bangladesh
+- Email: mohibullahmohim2020@gmail.com
+- Phone: +8801706439736
+- Address: Sunamganj, Bangladesh
 
 ---
 

@@ -1,6 +1,5 @@
-
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import jwt, { Secret, SignOptions } from 'jsonwebtoken';
 import { AppError } from '../errors/appError';
 
 export interface AuthRequest extends Request {
@@ -11,7 +10,11 @@ export interface AuthRequest extends Request {
   };
 }
 
-export const protect = (req: AuthRequest, res: Response, next: NextFunction) => {
+export const protect = (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
 
@@ -19,7 +22,10 @@ export const protect = (req: AuthRequest, res: Response, next: NextFunction) => 
       throw new AppError('No authorization token provided', 401);
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret') as any;
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET || 'secret',
+    ) as any;
     req.user = {
       id: decoded.id,
       email: decoded.email,
@@ -32,7 +38,11 @@ export const protect = (req: AuthRequest, res: Response, next: NextFunction) => 
   }
 };
 
-export const adminOnly = (req: AuthRequest, res: Response, next: NextFunction) => {
+export const adminOnly = (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction,
+) => {
   if (!req.user) {
     return next(new AppError('Authentication required', 401));
   }
@@ -44,10 +54,17 @@ export const adminOnly = (req: AuthRequest, res: Response, next: NextFunction) =
   next();
 };
 
-export const generateToken = (userId: string, email: string, role: string): string => {
-  return jwt.sign(
-    { id: userId, email, role },
-    process.env.JWT_SECRET || 'secret',
-    { expiresIn: process.env.JWT_EXPIRE || '7d' }
-  );
+const JWT_SECRET: Secret = process.env.JWT_SECRET || 'secret';
+
+const JWT_EXPIRE: SignOptions['expiresIn'] = (process.env.JWT_EXPIRE ||
+  '7d') as SignOptions['expiresIn'];
+
+export const generateToken = (
+  userId: string,
+  email: string,
+  role: string,
+): string => {
+  return jwt.sign({ id: userId, email, role }, JWT_SECRET, {
+    expiresIn: JWT_EXPIRE,
+  });
 };

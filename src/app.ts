@@ -5,6 +5,7 @@ const app = express();
 app.use(express.json());
 
 import cors from 'cors';
+import { errorHandler } from './errors/appError';
  
  
 // Middleware
@@ -35,7 +36,7 @@ app.use((req: Request, res: Response) => {
 
 
 // Error Handler (must be last)
-app.use();
+app.use(errorHandler);
 
 
 export default app;
