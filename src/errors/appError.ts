@@ -16,7 +16,7 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  console.error('Error:', error);
+  console.error('Error: bai ', error);
 
   if (error instanceof AppError) {
     return res.status(error.statusCode).json({
