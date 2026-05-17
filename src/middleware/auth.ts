@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt, { Secret, SignOptions } from 'jsonwebtoken';
 import { AppError } from '../errors/appError';
+import config from '../config';
 
 export interface AuthRequest extends Request {
   user?: {
@@ -11,32 +12,40 @@ export interface AuthRequest extends Request {
 }
 
 export const protect = (
-  req: AuthRequest,
+  req: any,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
+  const token = req.cookies?.token
+  console.log(17, "Token:", token)
+
+  if (!token) {
+    return next(new AppError("No token provided", 401))
+  }
+
   try {
-    const token = req.headers.authorization?.split(' ')[1];
-
-    if (!token) {
-      throw new AppError('No authorization token provided', 401);
-    }
-
     const decoded = jwt.verify(
       token,
-      process.env.JWT_SECRET || 'secret',
-    ) as any;
+      config.jwt_secret
+    ) as any
+
+    console.log(22, "Decoded token:", decoded)
+
     req.user = {
       id: decoded.id,
       email: decoded.email,
       role: decoded.role,
-    };
+    }
 
-    next();
+    return next()
   } catch (error) {
-    next(new AppError('Invalid or expired token', 401));
+    console.error("JWT ERROR:", error)
+
+    return next(
+      new AppError("Invalid or expired token", 401)
+    )
   }
-};
+}
 
 export const adminOnly = (
   req: AuthRequest,
@@ -54,17 +63,23 @@ export const adminOnly = (
   next();
 };
 
-const JWT_SECRET: Secret = process.env.JWT_SECRET || 'secret';
+const JWT_SECRET: Secret = config.jwt_secret;
 
-const JWT_EXPIRE: SignOptions['expiresIn'] = (process.env.JWT_EXPIRE ||
-  '7d') as SignOptions['expiresIn'];
+const JWT_EXPIRE: SignOptions['expiresIn'] = config.jwt_expires as SignOptions['expiresIn'];
+
+const secret: Secret = config.jwt_secret
+
 
 export const generateToken = (
   userId: string,
   email: string,
-  role: string,
+  role: string
 ): string => {
-  return jwt.sign({ id: userId, email, role }, JWT_SECRET, {
-    expiresIn: JWT_EXPIRE,
-  });
-};
+  return jwt.sign(
+    { id: userId, email, role },
+    config.jwt_secret as Secret,
+    {
+      expiresIn: config.jwt_expires as any,
+    }
+  )
+}

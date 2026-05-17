@@ -21,7 +21,7 @@ export const register = async (
   next: NextFunction,
 ) => {
   try {
-    const { name, email, password, phone } = req.body;
+    const { name, email, password } = req.body;
     if (!name || !email || !password) {
       return next(new AppError('Name, email, and password are required', 400));
     }
@@ -40,7 +40,6 @@ export const register = async (
       name,
       email,
       password,
-      phone,
       role: 'user',
     });
     await user.save();
@@ -56,7 +55,7 @@ export const register = async (
     res.status(201).json({
       success: true,
       message: 'User registered successfully',
-      user: formatUserResponse(user),
+      data: formatUserResponse(user),
     });
   } catch (error) {
     next(error);
@@ -75,7 +74,6 @@ export const login = async (
     if (!email || !password) {
       return next(new AppError('Email and password are required', 400));
     }
-
     const user = await User.findOne({ email }).select('+password');
 
     if (!user) {
@@ -87,25 +85,23 @@ export const login = async (
         new AppError('Your account has been blocked. Contact support.', 403),
       );
     }
-
     const isPasswordValid = await user.comparePassword(password);
 
     if (!isPasswordValid) {
       return next(new AppError('Invalid credentials', 401));
     }
-
     const token = generateToken(user._id.toString(), user.email, user.role);
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     res.status(200).json({
       success: true,
       message: 'Login successful',
-      user: formatUserResponse(user),
+      data: formatUserResponse(user),
     });
   } catch (error) {
     next(error);
@@ -116,7 +112,6 @@ export const login = async (
 export const getMe = async (req: any, res: Response, next: NextFunction) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
-console.log(114, 'Get Me:', { user });
     if (!user) {
       return next(new AppError('User not found', 404));
     }
@@ -127,7 +122,7 @@ console.log(114, 'Get Me:', { user });
 
     res.status(200).json({
       success: true,
-      user: formatUserResponse(user),
+      data: formatUserResponse(user),
     });
   } catch (error) {
     next(error);
@@ -156,7 +151,7 @@ export const updateProfile = async (
     res.status(200).json({
       success: true,
       message: 'Profile updated successfully',
-      user: formatUserResponse(user),
+      data: formatUserResponse(user),
     });
   } catch (error) {
     next(error);
@@ -213,17 +208,23 @@ export const changePassword = async (
 export const logout = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+    })
+
     res.status(200).json({
       success: true,
-      message: 'Logged out successfully',
-    });
+      message: "Logged out successfully",
+    })
   } catch (error) {
-    next(error);
+    next(error)
   }
-};
+}
 
 // ============ FORGOT PASSWORD ============
 export const forgotPassword = async (

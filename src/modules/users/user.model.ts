@@ -1,12 +1,12 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import bcrypt from 'bcryptjs';
-
+export type Role = 'user' | 'admin'
 export interface IUser extends Document {
   name: string;
   email: string;
   phone?: string;
   password: string;
-  role: 'user' | 'admin';
+  role: Role;
   image?: string;
   isBlocked: 'active' | 'blocked';
   createdAt: Date;
@@ -32,6 +32,7 @@ const userSchema = new Schema<IUser>(
     phone: {
       type: String,
       trim: true,
+      default: null,
     },
     password: {
       type: String,
@@ -46,7 +47,7 @@ const userSchema = new Schema<IUser>(
     },
     image: {
       type: String,
-      default: null,
+      default: " ",
     },
     isBlocked: {
       type: String,
