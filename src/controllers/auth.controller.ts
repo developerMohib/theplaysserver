@@ -208,23 +208,24 @@ export const changePassword = async (
 export const logout = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
-    res.clearCookie("token", {
+    res.clearCookie('token', {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-    })
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+    });
 
     res.status(200).json({
       success: true,
-      message: "Logged out successfully",
-    })
+      message: 'Logged out successfully',
+    });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
 // ============ FORGOT PASSWORD ============
 export const forgotPassword = async (

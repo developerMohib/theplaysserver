@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt, { Secret, SignOptions } from 'jsonwebtoken';
+import jwt, { Secret } from 'jsonwebtoken';
 import { AppError } from '../errors/appError';
 import config from '../config';
 
@@ -17,10 +17,9 @@ export const protect = (
   next: NextFunction
 ) => {
   const token = req.cookies?.token
-  console.log(17, "Token:", token)
 
   if (!token) {
-    return next(new AppError("No token provided", 401))
+   return next(new AppError("Unauthorized", 401));
   }
 
   try {
@@ -28,9 +27,6 @@ export const protect = (
       token,
       config.jwt_secret
     ) as any
-
-    console.log(22, "Decoded token:", decoded)
-
     req.user = {
       id: decoded.id,
       email: decoded.email,
@@ -62,13 +58,6 @@ export const adminOnly = (
 
   next();
 };
-
-const JWT_SECRET: Secret = config.jwt_secret;
-
-const JWT_EXPIRE: SignOptions['expiresIn'] = config.jwt_expires as SignOptions['expiresIn'];
-
-const secret: Secret = config.jwt_secret
-
 
 export const generateToken = (
   userId: string,

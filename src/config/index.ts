@@ -2,8 +2,6 @@ import dotenv from 'dotenv'
 import { AppError } from '../errors/appError'
 
 dotenv.config()
-console.log('Loaded JWT_SECRET:', process.env.JWT_SECRET)
-console.log('Loaded DB_URI:', process.env.DB_URI)
 const config = {
   port: process.env.PORT || 5000,
   db_url: process.env.DB_URI as string,
