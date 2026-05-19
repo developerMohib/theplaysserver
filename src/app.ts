@@ -27,22 +27,20 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/game',gameRoutes)
+app.use('/api/game', gameRoutes);
 app.get('/api/health', (req: Request, res: Response) => {
   res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
 app.get('/health', (req: Request, res: Response) => {
-   res.status(200).json({
-      success: true,
-      message: 'Game Booking API Healt is fine 🚀',
-   })
-})
+  res.status(200).json({
+    success: true,
+    message: 'Game Booking API Healt is fine 🚀',
+  });
+});
 app.get('/', (req: Request, res: Response) => {
-   res.sendFile(
-      path.join(__dirname, '../public/index.html')
-   )
-})
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
 
 // 404 Handler
 app.use((req: Request, res: Response) => {
