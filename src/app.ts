@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import { gameRoutes } from './routes/game.route';
+import path from 'path';
 
 const app = express();
 
@@ -31,8 +32,17 @@ app.get('/api/health', (req: Request, res: Response) => {
   res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-app.get('/', (req: Request, res: Response) => { 
-});
+app.get('/health', (req: Request, res: Response) => {
+   res.status(200).json({
+      success: true,
+      message: 'Game Booking API Healt is fine 🚀',
+   })
+})
+app.get('/', (req: Request, res: Response) => {
+   res.sendFile(
+      path.join(__dirname, '../public/index.html')
+   )
+})
 
 // 404 Handler
 app.use((req: Request, res: Response) => {
