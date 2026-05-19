@@ -92,8 +92,9 @@ export const login = async (
     const token = generateToken(user._id.toString(), user.email, user.role);
     res.cookie('token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      secure: true,
+      sameSite: 'none',
+      path: '/',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -210,10 +211,10 @@ export const logout = async (
   next: NextFunction,
 ) => {
   try {
-    res.clearCookie('token', {
+     res.clearCookie('token', {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      secure: true,
+      sameSite: 'none',
       path: '/',
     });
 

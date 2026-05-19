@@ -83,8 +83,9 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         const token = (0, auth_1.generateToken)(user._id.toString(), user.email, user.role);
         res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            secure: true,
+            sameSite: 'none',
+            path: '/',
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
         res.status(200).json({
@@ -175,8 +176,8 @@ const logout = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
     try {
         res.clearCookie('token', {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
+            secure: true,
+            sameSite: 'none',
             path: '/',
         });
         res.status(200).json({

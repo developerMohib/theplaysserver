@@ -1,48 +1,46 @@
+import app from "./app";
+import config from "./config";
+import connectDatabase from "./config/db";
 
-import app from './app';
-import config from './config';
-import connectDatabase from './config/db';
+let server: any;
 
-const startServer = (app: any, port: number | string) => {
-  const server = app.listen(port, () => {
-    console.log(`🚀 Server running on port ${port}`);
-  });
-
-  return server;
-};
+// Must be top-level
+process.on("uncaughtException", (error: any) => {
+  console.error("Uncaught Exception:", error);
+  process.exit(1);
+});
 
 async function main() {
   try {
     await connectDatabase(config.db_url as string);
-    console.log('Database connected 💪');
+    console.log("Database connected 💪");
 
-    const server = startServer(app, config.port as string);
+    const port = Number(config.port) || 5000;
 
-    // Handle unhandled promise rejections
-    process.on('unhandledRejection', (error: any) => {
-      console.error('Unhandled Rejection:', error);
+    server = app.listen(port, () => {
+      console.log(`🚀 Server running on port ${port}`);
     });
 
-    // Handle uncaught exceptions
-    process.on('uncaughtException', (error: any) => {
-      console.error('Uncaught Exception:', error);
+    process.on("unhandledRejection", (error: any) => {
+      console.error("Unhandled Rejection:", error);
+
       server.close(() => {
-        process.exit(1); // PM2 will auto-restart
+        process.exit(1);
       });
     });
 
-    // Graceful shutdown on SIGTERM (for PM2)
-    process.on('SIGTERM', () => {
-      console.log('SIGTERM received, shutting down gracefully...');
+    process.on("SIGTERM", () => {
+      console.log("SIGTERM received, shutting down gracefully...");
+
       server.close(() => {
-        console.log('Server shut down');
+        console.log("Server shut down");
         process.exit(0);
       });
     });
 
   } catch (error) {
-    console.error('Failed to start server:', error);
-    process.exit(1); // Exit so PM2 can restart
+    console.error("Failed to start server:", error);
+    process.exit(1);
   }
 }
 

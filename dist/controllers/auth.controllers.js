@@ -86,6 +86,7 @@ const loginUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.loginUser = loginUser;
+
 // Get current user
 const getCurrentUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
