@@ -17,11 +17,9 @@ export const protect = (
   next: NextFunction
 ) => {
   const token = req.cookies?.token
-
   if (!token) {
    return next(new AppError("Unauthorized", 401));
   }
-
   try {
     const decoded = jwt.verify(
       token,

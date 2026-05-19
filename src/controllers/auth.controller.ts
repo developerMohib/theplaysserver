@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 
 import { generateToken } from '../middleware/auth';
 import { AppError } from '../errors/appError';
-import { User } from '../modules/users/user.model';
+import { User } from '../modules/user.model';
 
 const formatUserResponse = (user: any) => ({
   id: user._id.toString(),
@@ -70,7 +70,6 @@ export const login = async (
 ) => {
   try {
     const { email, password } = req.body;
-    console.log(67, 'Login attempt:', { email, password });
     if (!email || !password) {
       return next(new AppError('Email and password are required', 400));
     }

@@ -5,6 +5,7 @@ import { authRoutes } from './routes/auth.routes';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import { gameRoutes } from './routes/game.route';
 
 const app = express();
 
@@ -25,7 +26,7 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 // Routes
 app.use('/api/auth', authRoutes);
-
+app.use('/api/game',gameRoutes)
 app.get('/api/health', (req: Request, res: Response) => {
   res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
 });

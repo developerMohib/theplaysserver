@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { AppError } from '../errors/appError';
-import { Booking } from '../modules/bookings/booking.model';
+import { Booking } from '../modules/booking.model';
 
 // Get available slots
 export const getAvailableSlots = async (

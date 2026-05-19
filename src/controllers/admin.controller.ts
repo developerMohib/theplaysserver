@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
-import { Booking } from '../modules/bookings/booking.model';
-import { Payment } from '../modules/payments/payment.model';
-import { User } from '../modules/users/user.model';
+import { Booking } from '../modules/booking.model';
+import { Payment } from '../modules/payment.model';
+import { User } from '../modules/user.model';
 import { AppError } from '../errors/appError';
-import { Review } from '../modules/reviews/review.model';
+import { Review } from '../modules/review.model';
 
 
 // Dashboard Analytics

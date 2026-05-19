@@ -1,6 +1,5 @@
 
 import mongoose, { Schema, Document } from 'mongoose';
-
 export interface ISchedule extends Document {
   date: Date;
   startTime: string;
@@ -12,6 +11,7 @@ export interface ISchedule extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
+
 
 const scheduleSchema = new Schema<ISchedule>(
   {

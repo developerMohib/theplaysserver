@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { AppError } from '../errors/appError';
-import { Schedule } from '../modules/schedules/schedule.model';
+import { Schedule } from '../modules/schedule.model';
 
 
 // Get schedules
