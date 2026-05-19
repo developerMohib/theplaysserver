@@ -13,34 +13,34 @@ const auth_routes_1 = require("./routes/auth.routes");
 const game_route_1 = require("./routes/game.route");
 const app = (0, express_1.default)();
 app.use((0, helmet_1.default)());
-app.use((0, morgan_1.default)("dev"));
+app.use((0, morgan_1.default)('dev'));
 app.use((0, cors_1.default)({
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'https://theplaysclient.vercel.app'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
-app.use(express_1.default.json({ limit: "10mb" }));
-app.use(express_1.default.urlencoded({ limit: "10mb", extended: true }));
+app.use(express_1.default.json({ limit: '10mb' }));
+app.use(express_1.default.urlencoded({ limit: '10mb', extended: true }));
 app.use((0, cookie_parser_1.default)());
-app.use("/api/auth", auth_routes_1.authRoutes);
-app.use("/api/game", game_route_1.gameRoutes);
-app.get("/api/health", (req, res) => {
+app.use('/api/auth', auth_routes_1.authRoutes);
+app.use('/api/game', game_route_1.gameRoutes);
+app.get('/api/health', (req, res) => {
     res.status(200).json({
-        status: "OK",
+        status: 'OK',
         timestamp: new Date().toISOString(),
     });
 });
-app.get("/", (req, res) => {
+app.get('/', (req, res) => {
     res.status(200).json({
         success: true,
-        message: "Game Booking API is running successfully 🚀",
+        message: 'Game Booking API is running successfully 🚀',
     });
 });
 app.use((req, res) => {
     res.status(404).json({
         success: false,
-        message: "Route not found",
+        message: 'Route not found',
         path: req.originalUrl,
     });
 });
