@@ -90,10 +90,13 @@ export const login = async (
       return next(new AppError('Invalid credentials', 401));
     }
     const token = generateToken(user._id.toString(), user.email, user.role);
+
+    const isDev = process.env.NODE_ENV === 'development';
+
     res.cookie('token', token, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'none',
+      secure: !isDev, // false on localhost, true on render.com
+      sameSite: isDev ? 'lax' : 'strict', // different per environment
       path: '/',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
@@ -211,7 +214,7 @@ export const logout = async (
   next: NextFunction,
 ) => {
   try {
-     res.clearCookie('token', {
+    res.clearCookie('token', {
       httpOnly: true,
       secure: true,
       sameSite: 'none',

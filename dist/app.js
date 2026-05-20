@@ -15,10 +15,11 @@ const app = (0, express_1.default)();
 app.use((0, helmet_1.default)());
 app.use((0, morgan_1.default)('dev'));
 app.use((0, cors_1.default)({
-    origin: ['http://localhost:3000', 'https://theplaysclient.vercel.app', 'https://www.playsbd.com'],
+    origin: ['http://localhost:3000', 'https://theplaysclient.vercel.app', 'https://www.playsbd.com', 'https://theplaysserver.onrender.com'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization'],
+    optionsSuccessStatus: 200,
 }));
 app.use(express_1.default.json({ limit: '10mb' }));
 app.use(express_1.default.urlencoded({ limit: '10mb', extended: true }));
