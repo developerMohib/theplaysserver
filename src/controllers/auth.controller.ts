@@ -95,8 +95,8 @@ export const login = async (
 
     res.cookie('token', token, {
       httpOnly: true,
-      secure: !isDev, // false on localhost, true on render.com
-      sameSite: isDev ? 'lax' : 'strict', // different per environment
+      secure: !isDev,
+      sameSite: isDev ? 'lax' : 'strict',
       path: '/',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
