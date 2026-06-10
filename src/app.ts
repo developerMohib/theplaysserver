@@ -19,7 +19,7 @@ app.use(
       'http://localhost:3000',
       'https://theplaysclient.vercel.app',
       'https://www.playsbd.com',
-      'https://theplaysserver.onrender.com',
+      'https://api.playsbd.com',
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
