@@ -5,7 +5,6 @@ import { User } from '../modules/user.model';
 import { AppError } from '../errors/appError';
 import { Review } from '../modules/review.model';
 
-
 // Dashboard Analytics
 export const getAnalytics = async (
   req: Request,

@@ -15,6 +15,7 @@ const formatUserResponse = (user: any) => ({
 });
 
 // ============ REGISTER ============
+
 export const register = async (
   req: Request,
   res: Response,
