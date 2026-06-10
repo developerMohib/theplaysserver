@@ -1,4 +1,3 @@
-
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IPayment extends Document {
@@ -53,7 +52,7 @@ const paymentSchema = new Schema<IPayment>(
   {
     timestamps: true,
     collection: 'payments',
-  }
+  },
 );
 
 paymentSchema.index({ bookingId: 1, paymentStatus: 1 });

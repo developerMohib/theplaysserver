@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 export class AppError extends Error {
   constructor(
     public message: string,
-    public statusCode: number
+    public statusCode: number,
   ) {
     super(message);
     this.statusCode = statusCode;
@@ -14,7 +14,7 @@ export const errorHandler = (
   error: Error | AppError,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   console.error('Error: bai ', error);
 
