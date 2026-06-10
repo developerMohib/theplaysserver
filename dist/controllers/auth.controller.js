@@ -66,6 +66,7 @@ exports.register = register;
 const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, password } = req.body;
+        console.log('74 Login request body:', { email, password });
         if (!email || !password) {
             return next(new appError_1.AppError('Email and password are required', 400));
         }
@@ -85,7 +86,8 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         res.cookie('token', token, {
             httpOnly: true,
             secure: !isDev,
-            sameSite: isDev ? 'lax' : 'strict',
+            sameSite: isDev ? 'lax' : 'none',
+            domain: isDev ? undefined : '.playsbd.com',
             path: '/',
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });

@@ -71,6 +71,7 @@ export const login = async (
 ) => {
   try {
     const { email, password } = req.body;
+    console.log('74 Login request body:', { email, password });
     if (!email || !password) {
       return next(new AppError('Email and password are required', 400));
     }
@@ -97,7 +98,8 @@ export const login = async (
     res.cookie('token', token, {
       httpOnly: true,
       secure: !isDev,
-      sameSite: isDev ? 'lax' : 'strict',
+      sameSite: isDev ? 'lax' : 'none',
+      domain: isDev ? undefined : '.playsbd.com',
       path: '/',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
