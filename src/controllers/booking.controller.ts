@@ -6,7 +6,7 @@ import { Booking } from '../modules/booking.model';
 export const getAvailableSlots = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const { date } = req.query;
@@ -49,17 +49,11 @@ export const getAvailableSlots = async (
 export const createBooking = async (
   req: any,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
-    const {
-      bookingDate,
-      startTime,
-      endTime,
-      packageType,
-      duration,
-      price,
-    } = req.body;
+    const { bookingDate, startTime, endTime, packageType, duration, price } =
+      req.body;
 
     if (!bookingDate || !startTime || !endTime || !packageType) {
       throw new AppError('Missing required fields', 400);
@@ -108,7 +102,7 @@ export const createBooking = async (
 export const getUserBookings = async (
   req: any,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const bookings = await Booking.find({
@@ -129,7 +123,7 @@ export const getUserBookings = async (
 export const getSingleBooking = async (
   req: any,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const booking = await Booking.findById(req.params.id);
@@ -155,7 +149,7 @@ export const getSingleBooking = async (
 export const cancelBookingRequest = async (
   req: any,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const booking = await Booking.findById(req.params.id);
@@ -197,9 +191,7 @@ const generateTimeSlots = (bookedTimes: any[]): string[] => {
     const time = `${String(i).padStart(2, '0')}:00`;
 
     const isBooked = bookedTimes.some(
-      (bt) =>
-        bt.startTime.substring(0, 2) ===
-        String(i).padStart(2, '0')
+      (bt) => bt.startTime.substring(0, 2) === String(i).padStart(2, '0'),
     );
 
     if (!isBooked) {

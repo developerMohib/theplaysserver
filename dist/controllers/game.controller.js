@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getOneGame = exports.getAllGames = void 0;
+exports.bookOneGame = exports.getOneGame = exports.getAllGames = void 0;
 const games_model_1 = require("../modules/games.model");
 const appError_1 = require("../errors/appError");
 // Get All Games Controller
@@ -31,8 +31,7 @@ const getOneGame = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     try {
         const { slug } = req.params;
         const game = yield games_model_1.Game.findOne({
-            _id: slug,
-            available: true,
+            slug,
         });
         if (!game) {
             return next(new appError_1.AppError('Game not found', 404));
@@ -48,3 +47,24 @@ const getOneGame = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.getOneGame = getOneGame;
+const bookOneGame = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const game = yield games_model_1.Game.findOne({
+            _id: id,
+            available: true,
+        });
+        if (!game) {
+            return next(new appError_1.AppError('Game not found', 404));
+        }
+        res.status(200).json({
+            success: true,
+            message: 'Game retrieved successfully',
+            data: game,
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+});
+exports.bookOneGame = bookOneGame;

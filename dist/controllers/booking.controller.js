@@ -49,7 +49,7 @@ exports.getAvailableSlots = getAvailableSlots;
 // Create booking
 const createBooking = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { bookingDate, startTime, endTime, packageType, duration, price, } = req.body;
+        const { bookingDate, startTime, endTime, packageType, duration, price } = req.body;
         if (!bookingDate || !startTime || !endTime || !packageType) {
             throw new appError_1.AppError('Missing required fields', 400);
         }
@@ -158,8 +158,7 @@ const generateTimeSlots = (bookedTimes) => {
     const timeEnd = 21;
     for (let i = timeStart; i < timeEnd; i++) {
         const time = `${String(i).padStart(2, '0')}:00`;
-        const isBooked = bookedTimes.some((bt) => bt.startTime.substring(0, 2) ===
-            String(i).padStart(2, '0'));
+        const isBooked = bookedTimes.some((bt) => bt.startTime.substring(0, 2) === String(i).padStart(2, '0'));
         if (!isBooked) {
             slots.push(time);
         }

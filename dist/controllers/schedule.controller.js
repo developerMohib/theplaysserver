@@ -45,7 +45,7 @@ exports.getSchedules = getSchedules;
 // Create schedule
 const createSchedule = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { date, startTime, endTime, maxSlots, } = req.body;
+        const { date, startTime, endTime, maxSlots } = req.body;
         const schedule = yield schedule_model_1.Schedule.create({
             date: new Date(date),
             startTime,

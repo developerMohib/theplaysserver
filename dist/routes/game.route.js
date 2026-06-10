@@ -9,4 +9,5 @@ const game_controller_1 = require("../controllers/game.controller");
 const router = express_1.default.Router();
 router.get('/popular', game_controller_1.getAllGames);
 router.get('/my/:slug', game_controller_1.getOneGame);
+router.get('/book/:id', game_controller_1.bookOneGame);
 exports.gameRoutes = router;

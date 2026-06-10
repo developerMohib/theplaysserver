@@ -2,12 +2,11 @@ import { Request, Response, NextFunction } from 'express';
 import { AppError } from '../errors/appError';
 import { Schedule } from '../modules/schedule.model';
 
-
 // Get schedules
 export const getSchedules = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const { date } = req.query;
@@ -45,15 +44,10 @@ export const getSchedules = async (
 export const createSchedule = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
-    const {
-      date,
-      startTime,
-      endTime,
-      maxSlots,
-    } = req.body;
+    const { date, startTime, endTime, maxSlots } = req.body;
 
     const schedule = await Schedule.create({
       date: new Date(date),
@@ -77,19 +71,13 @@ export const createSchedule = async (
 export const deleteSchedule = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
-    const schedule =
-      await Schedule.findByIdAndDelete(
-        req.params.id
-      );
+    const schedule = await Schedule.findByIdAndDelete(req.params.id);
 
     if (!schedule) {
-      throw new AppError(
-        'Schedule not found',
-        404
-      );
+      throw new AppError('Schedule not found', 404);
     }
 
     res.status(200).json({

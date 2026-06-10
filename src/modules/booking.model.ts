@@ -1,4 +1,3 @@
-
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IBooking extends Document {
@@ -73,7 +72,7 @@ const bookingSchema = new Schema<IBooking>(
   {
     timestamps: true,
     collection: 'bookings',
-  }
+  },
 );
 
 // Index for finding bookings by user and date

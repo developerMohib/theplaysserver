@@ -84,8 +84,8 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         const isDev = process.env.NODE_ENV === 'development';
         res.cookie('token', token, {
             httpOnly: true,
-            secure: !isDev, // false on localhost, true on render.com
-            sameSite: isDev ? 'lax' : 'strict', // different per environment
+            secure: !isDev,
+            sameSite: isDev ? 'lax' : 'strict',
             path: '/',
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });

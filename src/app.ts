@@ -15,7 +15,12 @@ app.use(morgan('dev'));
 
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://theplaysclient.vercel.app', 'https://www.playsbd.com','https://theplaysserver.onrender.com'],
+    origin: [
+      'http://localhost:3000',
+      'https://theplaysclient.vercel.app',
+      'https://www.playsbd.com',
+      'https://theplaysserver.onrender.com',
+    ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization'],
